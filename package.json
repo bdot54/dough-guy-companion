@@ -1,0 +1,14 @@
+{
+  "name": "dough-guy-companion",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "preview": "vite preview --host 127.0.0.1"
+  },
+  "devDependencies": {
+    "playwright": "^1.60.0",
+    "vite": "^7.1.0"
+  }
+}
