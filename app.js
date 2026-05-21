@@ -1,7 +1,9 @@
 const ASSETS = {
   logo: "./assets/logo.avif",
   oneBite: "./assets/one-bite.webp",
-  tezza: "./assets/tezza-8213.webp"
+  tezza: "./assets/tezza-8213.webp",
+  nyStyle: "./assets/ny-style-tiktok.jpg",
+  neapolitan: "./assets/neapolitan-margherita-pizza.webp"
 };
 
 const today = new Date().toISOString().slice(0, 10);
@@ -58,8 +60,8 @@ const steps = [
 
 const pizzaImages = {
   bar: "https://platform.chicago.eater.com/wp-content/uploads/sites/17/chorus/uploads/chorus_asset/file/25835083/54156056883_14bcedb264_h.jpg?quality=90&strip=all&crop=16.65625%2C0%2C66.6875%2C100&w=2400",
-  ny: "https://upload.wikimedia.org/wikipedia/commons/b/ba/New_York-Style_Pizza.png",
-  fancy: "https://upload.wikimedia.org/wikipedia/commons/2/2d/Neapolitan_pizza.jpg",
+  ny: ASSETS.nyStyle,
+  fancy: ASSETS.neapolitan,
   newHaven: "https://upload.wikimedia.org/wikipedia/commons/a/aa/Frank_pepe_clam_pie.jpg",
   detroit: "https://commons.wikimedia.org/wiki/Special:FilePath/Detroit-style_pizza_showing_typica_lacy_cheese_crust.jpg",
   chicago: "https://www.foodnetwork.com/content/dam/images/food/fullset/2019/2/19/0/KC2004_Deep-Dish-Pizza_s4x3.jpg",
