@@ -478,16 +478,6 @@ function renderMission(recipe) {
             <h2>Dough Recipe</h2>
           </div>
         </div>
-        <ul class="mission-bullets" aria-label="Dough recipe summary">
-          <li>
-            <span>Number of pizzas</span>
-            <strong>${state.calc.count}</strong>
-          </li>
-          <li>
-            <span>Pizza size</span>
-            <strong>${state.calc.size}&quot;</strong>
-          </li>
-        </ul>
       </div>
       <div class="results-grid">
         <div class="result-tile"><span>Dough weight</span><strong>${recipe.totalDough}g</strong></div>
