@@ -1138,7 +1138,7 @@ function renderShop() {
         <div class="panel-header">
           <div>
             <h2>Tool Shop</h2>
-            <p>Simple pizza gear. Highly practical. Zero preciousness.</p>
+            <p>Pizza gear to up your game.</p>
           </div>
           <span class="chip">${state.cart} in cart</span>
         </div>
@@ -1340,7 +1340,7 @@ document.addEventListener("click", event => {
   if (action === "shop-next") state.shopSlide = (state.shopSlide + 1) % products.length;
   if (action === "add-cart") {
     state.cart += 1;
-    toast("Added to cart. Its only right.");
+    toast("One step closer to pro level pies.");
   }
   if (action === "close-high-five") state.highFive = false;
 
