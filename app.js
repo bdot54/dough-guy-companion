@@ -759,9 +759,8 @@ function renderDoughFlow() {
       <div class="panel-header">
         <div>
           <h2>Make Dough With Me</h2>
-          <p>${doneCount}/${steps.length} done. Earn the Crust High-Five.</p>
+          <p>${doneCount}/${steps.length} done.</p>
         </div>
-        <div class="pizza-loader" aria-label="Pizza loading animation"></div>
       </div>
       <div class="step-list">
         ${steps.map(([title, copy, timer], index) => `
@@ -1288,7 +1287,7 @@ document.addEventListener("click", event => {
 
     if (state.completedSteps.size === steps.length) {
       state.highFive = true;
-      celebrate("Dough flow complete. Lets cut this guy up.");
+      celebrate("Your dough is dialed. The oven is up next.");
     } else {
       render();
     }
