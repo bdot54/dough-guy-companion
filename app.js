@@ -1189,14 +1189,11 @@ function renderHighFive() {
   return `
     <div class="modal-layer">
       <div class="modal-card">
-        <div class="high-five">
-          <div class="dough-guy-face"></div>
-          <div class="slice-friend"></div>
-        </div>
-        <h2>Crust High-Five</h2>
-        <p>You finished the full dough flow. Beautiful undercarriage is no longer a dream.</p>
+        <div class="mic-drop">🎤</div>
+        <h2>You finished your dough flow</h2>
+        <p>Your dough is dialed. The oven is up next.</p>
         <div class="actions">
-          <button class="btn btn-primary" data-action="close-high-five" type="button">100 Percent</button>
+          <button class="btn btn-primary" data-action="close-high-five" type="button">Bake this thing!</button>
         </div>
       </div>
     </div>
@@ -1287,7 +1284,7 @@ document.addEventListener("click", event => {
 
     if (state.completedSteps.size === steps.length) {
       state.highFive = true;
-      celebrate("Your dough is dialed. The oven is up next.");
+      render();
     } else {
       render();
     }
