@@ -376,9 +376,9 @@ function renderCalculator() {
       <div class="hero-card">
         <img src="${ASSETS.oneBite}" alt="Dough Guy eating pizza" />
         <div class="hero-content">
-          <span class="eyebrow">Restaurant quality pizza in your oven</span>
-          <h1>No flop jalops.</h1>
-          <p>Your pizza wingman.</p>
+          <span class="eyebrow">Restaurant quality pizza in your home oven</span>
+          <h1>Your Pizza Wingman</h1>
+          <p>Eliminate undercarriage anxiety!</p>
         </div>
       </div>
 
@@ -478,7 +478,16 @@ function renderMission(recipe) {
             <h2>Dough Recipe</h2>
           </div>
         </div>
-        <div class="mission-copy">${recipe.mission}</div>
+        <ul class="mission-bullets" aria-label="Dough recipe summary">
+          <li>
+            <span>Number of pizzas</span>
+            <strong>${state.calc.count}</strong>
+          </li>
+          <li>
+            <span>Pizza size</span>
+            <strong>${state.calc.size}&quot;</strong>
+          </li>
+        </ul>
       </div>
       <div class="results-grid">
         <div class="result-tile"><span>Dough weight</span><strong>${recipe.totalDough}g</strong></div>
@@ -498,9 +507,9 @@ function renderMission(recipe) {
         `).join("")}
       </div>
       <div class="actions">
-        <button class="btn btn-primary" data-action="start-flow" type="button">Start Dough Timer</button>
+        <button class="btn btn-primary" data-action="start-flow" type="button">Start making your pies</button>
         <button class="btn" data-action="save-recipe" type="button">Save Recipe</button>
-        <button class="btn btn-dark" data-action="shop-recipe" type="button">Shop tools for this recipe</button>
+        <button class="btn btn-dark" data-action="shop-recipe" type="button">Add to your pizza toolbox</button>
       </div>
     </section>
   `;
