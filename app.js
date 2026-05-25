@@ -31,13 +31,19 @@ const state = {
   completedSteps: new Set(),
   journalOpen: false,
   journalPhoto: "",
+  journalPhotos: {
+    whole: "",
+    slice: "",
+    undercarriage: ""
+  },
+  activePhotoStep: 0,
   journalForm: {
     date: today,
     recipe: "48h cold ferment, 65% hydration classic",
     ovenTemp: 550,
     preheat: 60,
     toppings: "San Marzano, fresh mozzarella, fresh basil, EVOO",
-    score: 8,
+    score: 8.0,
     notes: "Slightly pale in center, add 15 minutes preheat next bake."
   },
   entries: loadEntries()
@@ -56,6 +62,12 @@ const steps = [
   ["Cold ferment", "Chill for flavor. Tang, char, good crisp.", "48-72h"],
   ["Bring to room temp", "Pull dough before bake time so it stretches without tearing.", "2h"],
   ["Stretch, top, launch, bake", "Zoom in bro, dont be shy. Lets cut this guy up.", "6-8m"]
+];
+
+const photoSteps = [
+  ["whole", "Whole Pizza", "Get the full pie. Char, shape, the whole situation."],
+  ["slice", "Single Slice", "One clean slice. Show the cheese, the fold, the intent."],
+  ["undercarriage", "Slice Undercarriage", "Flip that slice. Dough side gets the truth shot."]
 ];
 
 const pizzaImages = {
@@ -610,6 +622,11 @@ function renderJournal() {
 
 function renderJournalForm() {
   const form = state.journalForm;
+  const completedPhotos = photoSteps.filter(([key]) => state.journalPhotos[key]).length;
+  const currentPhotoIndex = completedPhotos === photoSteps.length
+    ? 0
+    : Math.max(0, photoSteps.findIndex(([key]) => !state.journalPhotos[key]));
+  const currentPhoto = photoSteps[currentPhotoIndex];
   return `
     <form class="journal-form" data-journal-form>
       <div class="field">
@@ -635,22 +652,35 @@ function renderJournalForm() {
         <input class="text-input" type="text" value="${escapeAttr(form.toppings)}" placeholder="e.g. San Marzano, fresh mozzarella, basil" data-journal="toppings" />
       </div>
       <div class="field">
-        <div class="field-label"><span>Undercarriage and bake score</span></div>
+        <div class="field-label"><span>My Score</span></div>
         <div class="score-row">
-          <input type="range" min="1" max="10" value="${form.score}" data-journal="score" />
-          <span class="score-pill">${form.score}/10</span>
+          <input type="range" min="1" max="10" step="0.1" value="${form.score}" data-journal="score" />
+          <span class="score-pill">${Number(form.score).toFixed(1)}/10</span>
         </div>
       </div>
       <div class="field photo-picker">
-        <div class="field-label"><span>Pizza photo</span></div>
-        <div class="photo-preview">${state.journalPhoto ? `<img src="${state.journalPhoto}" alt="Pizza preview" />` : `<span>Camera ready. Zoom in bro, dont be shy.</span>`}</div>
+        <div class="field-label"><span>Pizza Photos</span><strong>${completedPhotos}/3</strong></div>
+        <div class="photo-sequence">
+          ${photoSteps.map(([key, label], index) => `
+            <div class="photo-shot ${state.journalPhotos[key] ? "done" : ""} ${index === currentPhotoIndex ? "active" : ""}">
+              <div class="photo-thumb">
+                ${state.journalPhotos[key] ? `<img src="${state.journalPhotos[key]}" alt="${label} preview" />` : `<span>${index + 1}</span>`}
+              </div>
+              <span>${label}</span>
+            </div>
+          `).join("")}
+        </div>
+        <div class="photo-preview">
+          <strong>Shot ${currentPhotoIndex + 1}: ${currentPhoto[1]}</strong>
+          <span>${currentPhoto[2]}</span>
+        </div>
         <label class="btn btn-primary">
-          Open Camera
-          <input hidden type="file" accept="image/*" capture="environment" data-action="capture-photo" />
+          ${completedPhotos === 3 ? "Retake photos" : `Take photo ${currentPhotoIndex + 1} of 3`}
+          <input hidden type="file" accept="image/*" capture="environment" data-action="capture-photo" data-photo-slot="${currentPhoto[0]}" />
         </label>
       </div>
       <div class="field">
-        <label class="field-label">Next Time Fix...</label>
+        <label class="field-label">Next Time Fix</label>
         <textarea class="textarea" placeholder="Slightly pale in center, needs additional preheating next bake..." data-journal="notes">${escapeHtml(form.notes)}</textarea>
       </div>
       <div class="grid-two">
@@ -662,6 +692,7 @@ function renderJournalForm() {
 }
 
 function renderEntry(entry) {
+  const score = Number(entry.score).toFixed(1);
   return `
     <article class="entry-card">
       <div class="entry-thumb">${entry.photo ? `<img src="${entry.photo}" alt="${escapeAttr(entry.recipe)}" />` : ""}</div>
@@ -671,7 +702,7 @@ function renderEntry(entry) {
           <span>${entry.date}</span>
           <span>${entry.ovenTemp}&deg;F</span>
           <span>${entry.preheat} min</span>
-          <span>${entry.score}/10</span>
+          <span>${score}/10</span>
         </div>
         <p>${escapeHtml(entry.notes || entry.toppings)}</p>
       </div>
@@ -799,8 +830,10 @@ document.addEventListener("input", event => {
 
   const journalKey = event.target.dataset.journal;
   if (journalKey) {
-    state.journalForm[journalKey] = event.target.type === "number" || event.target.type === "range"
+    state.journalForm[journalKey] = event.target.type === "number"
       ? Number(event.target.value)
+      : event.target.type === "range"
+        ? Number.parseFloat(event.target.value)
       : event.target.value;
     if (journalKey === "score") render();
   }
@@ -808,9 +841,13 @@ document.addEventListener("input", event => {
 
 document.addEventListener("change", event => {
   if (event.target.dataset.action === "capture-photo" && event.target.files?.[0]) {
+    const slot = event.target.dataset.photoSlot || "whole";
     const reader = new FileReader();
     reader.onload = () => {
-      state.journalPhoto = reader.result;
+      state.journalPhotos[slot] = reader.result;
+      state.journalPhoto = state.journalPhotos.whole || state.journalPhotos.slice || state.journalPhotos.undercarriage;
+      const nextMissing = photoSteps.findIndex(([key]) => !state.journalPhotos[key]);
+      state.activePhotoStep = nextMissing === -1 ? 0 : nextMissing;
       render();
     };
     reader.readAsDataURL(event.target.files[0]);
@@ -869,6 +906,8 @@ document.addEventListener("click", event => {
   if (action === "discard-bake") {
     state.journalOpen = false;
     state.journalPhoto = "";
+    state.journalPhotos = { whole: "", slice: "", undercarriage: "" };
+    state.activePhotoStep = 0;
     toast("Bake note discarded.");
   }
   if (action === "save-bake") saveBake();
@@ -891,12 +930,16 @@ function saveBake() {
   const entry = {
     id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
     ...state.journalForm,
-    photo: state.journalPhoto
+    score: Number(state.journalForm.score).toFixed(1),
+    photos: { ...state.journalPhotos },
+    photo: state.journalPhotos.whole || state.journalPhotos.slice || state.journalPhotos.undercarriage || state.journalPhoto
   };
   state.entries = [entry, ...state.entries];
   persistEntries();
   state.journalOpen = false;
   state.journalPhoto = "";
+  state.journalPhotos = { whole: "", slice: "", undercarriage: "" };
+  state.activePhotoStep = 0;
   celebrate("Bake logged. Improve every time.");
 }
 
