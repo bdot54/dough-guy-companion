@@ -377,8 +377,8 @@ function renderCalculator() {
         <img src="${ASSETS.oneBite}" alt="Dough Guy eating pizza" />
         <div class="hero-content">
           <span class="eyebrow">Restaurant quality pizza in your home oven</span>
-          <h1>Your Pizza Wingman</h1>
-          <p>Eliminate undercarriage anxiety!</p>
+          <h1>Pizza Wingman</h1>
+          <p>Your pocket pizza coach and community</p>
         </div>
       </div>
 
