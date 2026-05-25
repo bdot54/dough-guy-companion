@@ -378,7 +378,7 @@ function renderCalculator() {
         <div class="hero-content">
           <span class="eyebrow">Restaurant quality pizza in your oven</span>
           <h1>No flop jalops.</h1>
-          <p>Just some dough math and a pizza guy here to help.</p>
+          <p>Your pizza wingman.</p>
         </div>
       </div>
 
