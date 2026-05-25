@@ -757,9 +757,11 @@ input[type="range"]::-moz-range-thumb {
   padding: 9px 4px 7px;
   background: transparent;
   color: var(--ink);
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 950;
+  line-height: 1.05;
   text-transform: uppercase;
+  overflow-wrap: anywhere;
 }
 
 .nav-btn.active {
@@ -1148,7 +1150,7 @@ input[type="range"]::-moz-range-thumb {
 .community-hero h2 {
   margin: 8px 0 2px;
   font-family: Impact, "Arial Black", sans-serif;
-  font-size: 44px;
+  font-size: clamp(34px, 10vw, 44px);
   line-height: 0.92;
   text-transform: uppercase;
 }
@@ -1243,14 +1245,47 @@ input[type="range"]::-moz-range-thumb {
   color: var(--ink);
 }
 
-.community-photo {
-  width: 100%;
-  aspect-ratio: 1.06;
-  display: block;
-  object-fit: cover;
+.community-photo-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
   border-top: 3px solid var(--black);
   border-bottom: 3px solid var(--black);
   background: #171312;
+}
+
+.community-photo-strip figure {
+  position: relative;
+  min-width: 0;
+  margin: 0;
+  border-right: 3px solid var(--black);
+  background: #171312;
+}
+
+.community-photo-strip figure:last-child {
+  border-right: 0;
+}
+
+.community-photo {
+  width: 100%;
+  aspect-ratio: 0.78;
+  display: block;
+  object-fit: cover;
+}
+
+.community-photo-strip figcaption {
+  position: absolute;
+  left: 6px;
+  bottom: 6px;
+  max-width: calc(100% - 12px);
+  border: 2px solid var(--black);
+  border-radius: 999px;
+  padding: 3px 6px;
+  background: rgba(255, 249, 232, 0.92);
+  color: var(--ink);
+  font-size: 8px;
+  font-weight: 950;
+  text-transform: uppercase;
 }
 
 .post-body {
@@ -1346,13 +1381,6 @@ input[type="range"]::-moz-range-thumb {
   flex-wrap: wrap;
   gap: 8px;
   align-items: center;
-}
-
-.post-actions > span {
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 950;
-  text-transform: uppercase;
 }
 
 .social-btn {

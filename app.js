@@ -8,7 +8,7 @@ const ASSETS = {
 
 const today = new Date().toISOString().slice(0, 10);
 const currentUserId = "user-you";
-const communityStorageVersion = "community-v1";
+const communityStorageVersion = "community-v2";
 
 const state = {
   tab: "calculator",
@@ -120,7 +120,7 @@ const users = {
   },
   "user-mia": {
     id: "user-mia",
-    displayName: "Mia Dough",
+    displayName: "ForReal Dough",
     username: "miamakespies",
     avatarUrl: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=160&q=80",
     bio: "Detroit edges and hot honey experiments.",
@@ -305,7 +305,8 @@ function seedCommunityPosts() {
       title: "72-Hour NY Cheese Pie",
       pizzaStyle: "NY",
       photo: pizzaImages.ny,
-      caption: "Big slice, good fold, strong structural integrity. The baseline got serious.",
+      photos: { whole: pizzaImages.ny, slice: pizzaImages.bar, undercarriage: ASSETS.oneBite },
+      caption: "Big slice, good fold, strong structural integrity. This may be my new Personal Best.",
       hydration: 65,
       fermentationHours: 72,
       flourType: "High-gluten flour",
@@ -322,6 +323,7 @@ function seedCommunityPosts() {
       title: "First Detroit Attempt",
       pizzaStyle: "Detroit",
       photo: pizzaImages.detroit,
+      photos: { whole: pizzaImages.detroit, slice: pizzaImages.sicilian, undercarriage: pizzaImages.detroit },
       caption: "Cheese edge trophy run. Thick but light on its feet. Crustworthy.",
       hydration: 70,
       fermentationHours: 48,
@@ -339,6 +341,7 @@ function seedCommunityPosts() {
       title: "Neapolitan-ish Patio Oven Bake",
       pizzaStyle: "Neapolitan",
       photo: pizzaImages.fancy,
+      photos: { whole: pizzaImages.fancy, slice: pizzaImages.newHaven, undercarriage: pizzaImages.fancy },
       caption: "Nice leopard spots, soft center, not a soupy mess. 100 percent.",
       hydration: 68,
       fermentationHours: 24,
@@ -356,6 +359,7 @@ function seedCommunityPosts() {
       title: "Grandma Pie with Hot Honey",
       pizzaStyle: "Grandma",
       photo: pizzaImages.sicilian,
+      photos: { whole: pizzaImages.sicilian, slice: pizzaImages.tomato, undercarriage: pizzaImages.sicilian },
       caption: "Square grandma energy. Crisp bottom, sweet heat, feeds the whole table.",
       hydration: 66,
       fermentationHours: 48,
@@ -373,6 +377,7 @@ function seedCommunityPosts() {
       title: "Sourdough Margherita",
       pizzaStyle: "Neapolitan",
       photo: pizzaImages.fancy,
+      photos: { whole: pizzaImages.fancy, slice: pizzaImages.ny, undercarriage: pizzaImages.fancy },
       caption: "Tangy little operator. Good char. Undercarriage still needs 5 more minutes preheat.",
       hydration: 72,
       fermentationHours: 36,
@@ -395,6 +400,7 @@ function makeSeedPost(post) {
     visibility: "public",
     comments: seedComments(post.id),
     ...post,
+    photos: post.photos || { whole: post.photo, slice: post.photo, undercarriage: post.photo },
     ratings,
     likes: post.likes || [],
     averageRating: ratingValues.length ? average(ratingValues) : 0,
@@ -586,7 +592,7 @@ function renderNav() {
   const items = [
     ["calculator", "Calculator", "recipe"],
     ["pies", "My Pies", "journal"],
-    ["styles", "Community", "pizza-full"],
+    ["styles", "Doughjo Community.", "pizza-full"],
     ["shop", "Shop", "cart"]
   ];
 
@@ -781,8 +787,8 @@ function renderStyles() {
         <div class="panel-header">
           <div>
             <span class="eyebrow">Dough Nation</span>
-            <h2>Community</h2>
-            <p>Hot bakes, slice scores, crust debates, and home-oven glory.</p>
+            <h2>The Doughjo Community</h2>
+            <p>Rate pies and connect with the pizza making community</p>
           </div>
           <span class="chip">${state.communityPosts.length} posts</span>
         </div>
@@ -824,6 +830,7 @@ function renderCommunityPostCard(post) {
   const liked = post.likes.includes(currentUserId);
   const myRating = post.ratings[currentUserId] || 8.0;
   const commentsOpen = post.commentsOpen;
+  const photos = getPostPhotos(post);
   return `
     <article class="community-card">
       <div class="post-head">
@@ -837,7 +844,14 @@ function renderCommunityPostCard(post) {
           : `<button class="follow-btn ${isFollowing ? "following" : ""}" data-action="toggle-follow" data-user-id="${post.userId}" type="button">${isFollowing ? "Following" : "Follow Baker"}</button>`}
       </div>
 
-      <img class="community-photo" src="${post.photo || ASSETS.oneBite}" alt="${escapeAttr(post.title)}" />
+      <div class="community-photo-strip" aria-label="${escapeAttr(post.title)} photos">
+        ${photos.map(({ label, src }) => `
+          <figure>
+            <img class="community-photo" src="${src}" alt="${escapeAttr(post.title)} ${label}" />
+            <figcaption>${label}</figcaption>
+          </figure>
+        `).join("")}
+      </div>
 
       <div class="post-body">
         <div class="post-title-row">
@@ -868,7 +882,7 @@ function renderCommunityPostCard(post) {
         <div class="post-actions">
           <button class="social-btn ${liked ? "liked" : ""}" data-action="toggle-like" data-post-id="${post.id}" type="button">${liked ? "Liked" : "Like"} · ${post.likeCount}</button>
           <button class="social-btn" data-action="toggle-comments" data-post-id="${post.id}" type="button">Comment · ${post.commentCount}</button>
-          ${isOwnPost ? `<button class="social-btn" data-action="unpublish-post" data-post-id="${post.id}" type="button">Unpublish</button>` : `<span>Rate this pie · Respect the undercarriage</span>`}
+          ${isOwnPost ? `<button class="social-btn" data-action="unpublish-post" data-post-id="${post.id}" type="button">Unpublish</button>` : ""}
         </div>
 
         ${commentsOpen ? renderCommentThread(post) : ""}
@@ -887,6 +901,16 @@ function renderCommentThread(post) {
       </div>
     </div>
   `;
+}
+
+function getPostPhotos(post) {
+  const photos = post.photos || {};
+  const fallback = post.photo || ASSETS.oneBite;
+  return [
+    { label: "Pizza", src: photos.whole || fallback },
+    { label: "Slice", src: photos.slice || photos.whole || fallback },
+    { label: "Undercarriage", src: photos.undercarriage || photos.slice || fallback }
+  ];
 }
 
 function renderComment(post, comment) {
