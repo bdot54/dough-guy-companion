@@ -84,6 +84,12 @@ const photoSteps = [
   ["undercarriage", "Slice Undercarriage", "Flip that slice. Dough side gets the truth shot."]
 ];
 
+const doughGuyPhotos = {
+  whole: "https://doughguy.co/cdn/shop/files/IMG_7295.heic?v=1763934981&width=800",
+  slice: "./assets/download.png",
+  undercarriage: "https://doughguy.co/cdn/shop/files/IMG_0712.jpg?v=1745346126&width=800"
+};
+
 const pizzaImages = {
   bar: "https://platform.chicago.eater.com/wp-content/uploads/sites/17/chorus/uploads/chorus_asset/file/25835083/54156056883_14bcedb264_h.jpg?quality=90&strip=all&crop=16.65625%2C0%2C66.6875%2C100&w=2400",
   ny: ASSETS.nyStyle,
@@ -162,67 +168,61 @@ const products = [
     name: "Dough Guy Infrared Thermometer",
     price: "$29.99",
     copy: "Laser precision to check steel and stone surface temperatures.",
-    shape: "round"
+    image: "./assets/ChatGPT Image May 25, 2026, 09_55_30 AM.png"
   },
   {
     name: "Dough Guy Perforated Aluminum Peel",
     price: "$45.00",
     copy: "Lightweight, non-stick, effortlessly launches pizzas.",
-    shape: "peel"
+    image: "./assets/ChatGPT Image May 25, 2026, 01_05_20 PM.png"
   },
   {
     name: "Dough Guy Wooden Peel",
     price: "$45.00",
     copy: "Lightweight launch control with classic shop-counter vibes.",
-    shape: "peel wood"
+    image: "./assets/ChatGPT Image May 25, 2026, 01_07_11 PM.png"
   },
   {
     name: "Modular Dough Proofing Tins",
     price: "$24.99",
     copy: "Three stackable, airtight tins that fit standard refrigerators.",
-    shape: "tins"
+    image: "./assets/ChatGPT Image May 25, 2026, 01_07_51 PM.png"
   },
   {
     name: "Modular Dough Proofing Boxes",
     price: "$24.99",
     copy: "Stackable, airtight, fridge-friendly proofing boxes.",
-    shape: "tins"
+    image: "./assets/ChatGPT Image May 25, 2026, 01_10_31 PM.png"
   },
   {
     name: "Ergonomic Rocker Blade",
     price: "$19.99",
     copy: "Perfect, clean, single-motion slices across the whole pie.",
-    shape: "steel"
+    image: "./assets/ChatGPT Image May 25, 2026, 09_56_55 AM.png"
   },
   {
-    name: "Dough Guy Detroit / Grandma Pan",
+    name: "Dough Guy Detroit Pan",
     price: "$34.99",
     copy: "Crispy cheese edges, square pie confidence, pan-pizza weekends.",
-    shape: "pan"
+    image: "./assets/ChatGPT Image May 25, 2026, 01_13_30 PM.png"
   },
   {
     name: "Dough Guy Round Pizza Cutter",
     price: "$14.99",
     copy: "Classic wheel cutter for clean slices when the rocker is off duty.",
-    shape: "cutter"
+    image: "./assets/ChatGPT Image May 25, 2026, 10_07_43 AM.png"
   },
   {
     name: "Dough Guy Kitchen Scale",
     price: "$24.99",
     copy: "Because vibes are good, but grams make better dough.",
-    shape: "scale"
-  },
-  {
-    name: "Dough Guy Pizza Screens",
-    price: "$18.99",
-    copy: "Extra crisp insurance for reheats, thin pies, and no-flop experiments.",
-    shape: "screen"
+    image: "./assets/ChatGPT Image May 25, 2026, 01_14_31 PM.png"
   },
   {
     name: "Dough Guy Pizza Pin",
     price: "$17.99",
     copy: "A rolling pin built for bar pies, tavern pies, and thin-crust missions.",
-    shape: "pin"
+    image: "./assets/ChatGPT Image May 25, 2026, 01_11_30 PM.png"
   },
   {
     name: "Dough Guy Essentials Pack",
@@ -304,8 +304,8 @@ function seedCommunityPosts() {
       userId: "user-vin",
       title: "72-Hour NY Cheese Pie",
       pizzaStyle: "NY",
-      photo: pizzaImages.ny,
-      photos: { whole: pizzaImages.ny, slice: pizzaImages.bar, undercarriage: ASSETS.oneBite },
+      photo: doughGuyPhotos.whole,
+      photos: { whole: doughGuyPhotos.whole, slice: doughGuyPhotos.slice, undercarriage: doughGuyPhotos.undercarriage },
       caption: "Big slice, good fold, strong structural integrity. This may be my new Personal Best.",
       hydration: 65,
       fermentationHours: 72,
@@ -322,8 +322,8 @@ function seedCommunityPosts() {
       userId: "user-mia",
       title: "First Detroit Attempt",
       pizzaStyle: "Detroit",
-      photo: pizzaImages.detroit,
-      photos: { whole: pizzaImages.detroit, slice: pizzaImages.sicilian, undercarriage: pizzaImages.detroit },
+      photo: doughGuyPhotos.whole,
+      photos: { whole: doughGuyPhotos.whole, slice: doughGuyPhotos.slice, undercarriage: doughGuyPhotos.undercarriage },
       caption: "Cheese edge trophy run. Thick but light on its feet. Crustworthy.",
       hydration: 70,
       fermentationHours: 48,
@@ -340,8 +340,8 @@ function seedCommunityPosts() {
       userId: "user-zoe",
       title: "Neapolitan-ish Patio Oven Bake",
       pizzaStyle: "Neapolitan",
-      photo: pizzaImages.fancy,
-      photos: { whole: pizzaImages.fancy, slice: pizzaImages.newHaven, undercarriage: pizzaImages.fancy },
+      photo: doughGuyPhotos.whole,
+      photos: { whole: doughGuyPhotos.whole, slice: doughGuyPhotos.slice, undercarriage: doughGuyPhotos.undercarriage },
       caption: "Nice leopard spots, soft center, not a soupy mess. 100 percent.",
       hydration: 68,
       fermentationHours: 24,
@@ -358,8 +358,8 @@ function seedCommunityPosts() {
       userId: "user-mia",
       title: "Grandma Pie with Hot Honey",
       pizzaStyle: "Grandma",
-      photo: pizzaImages.sicilian,
-      photos: { whole: pizzaImages.sicilian, slice: pizzaImages.tomato, undercarriage: pizzaImages.sicilian },
+      photo: doughGuyPhotos.whole,
+      photos: { whole: doughGuyPhotos.whole, slice: doughGuyPhotos.slice, undercarriage: doughGuyPhotos.undercarriage },
       caption: "Square grandma energy. Crisp bottom, sweet heat, feeds the whole table.",
       hydration: 66,
       fermentationHours: 48,
@@ -376,8 +376,8 @@ function seedCommunityPosts() {
       userId: "user-vin",
       title: "Sourdough Margherita",
       pizzaStyle: "Neapolitan",
-      photo: pizzaImages.fancy,
-      photos: { whole: pizzaImages.fancy, slice: pizzaImages.ny, undercarriage: pizzaImages.fancy },
+      photo: doughGuyPhotos.whole,
+      photos: { whole: doughGuyPhotos.whole, slice: doughGuyPhotos.slice, undercarriage: doughGuyPhotos.undercarriage },
       caption: "Tangy little operator. Good char. Undercarriage still needs 5 more minutes preheat.",
       hydration: 72,
       fermentationHours: 36,
@@ -592,7 +592,7 @@ function renderNav() {
   const items = [
     ["calculator", "Calculator", "recipe"],
     ["pies", "My Pies", "journal"],
-    ["styles", "Doughjo Community.", "pizza-full"],
+    ["styles", "Doughjo Community", "pizza-full"],
     ["shop", "Shop", "cart"]
   ];
 
@@ -746,7 +746,7 @@ function renderMission(recipe) {
       <div class="actions">
         <button class="btn btn-primary" data-action="start-flow" type="button">Start making your pies</button>
         <button class="btn" data-action="save-recipe" type="button">Save Recipe</button>
-        <button class="btn btn-dark" data-action="shop-recipe" type="button">Add to your pizza toolbox</button>
+        <button class="btn btn-dark" data-action="shop-recipe" type="button">Shop Pizza Gear</button>
       </div>
     </section>
   `;
