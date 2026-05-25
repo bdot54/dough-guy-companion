@@ -345,7 +345,7 @@ function renderNav() {
   const items = [
     ["calculator", "Calculator", "recipe"],
     ["pies", "My Pies", "journal"],
-    ["styles", "Pizza Styles", "pizza-full"],
+    ["styles", "Dough Nation", "pizza-full"],
     ["shop", "Shop", "cart"]
   ];
 
